@@ -4,11 +4,13 @@ import dk.viatab.backend.entities.Story;
 import dk.viatab.backend.repositories.StoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 class StoryServiceTest {
 
     private StoryRepository repo;
