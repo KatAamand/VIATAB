@@ -34,7 +34,18 @@ Vi følger en **trunk-based udviklingsstrategi** med følgende branches:
 Alle ændringer skal merges via **pull requests (PRs)**:
 - En PR skal **reviewes** før merge (selv ved solo-projekt: brug review-processen til CI-test).
 - CI-workflows kører automatisk på PRs.
-- PR-titler skal følge konventionen: `feat: ...`, `fix: ...`, `refactor: ...` osv.
+- PR-titler skal følge konventionen(Conventional Commits):
+  
+| Type       | Bruges til...                                           | Eksempel                                 |
+|------------|----------------------------------------------------------|------------------------------------------|
+| `feat`     | Nye features / funktionalitet                            | `feat: tilføj loginfunktion`             |
+| `fix`      | Bugfixes                                                 | `fix: undgå crash ved tom brugerinput`   |
+| `docs`     | Dokumentation (README, kommentarer)                      | `docs: opdatér API-beskrivelse`          |
+| `style`    | Ændringer i kodeformat (whitespace, kommaer, etc.)       | `style: ensret semikolon i ts-filer`     |
+| `refactor` | Kodeændringer der ikke ændrer funktionalitet             | `refactor: del controller op i moduler`  |
+| `test`     | Tilføjelse eller ændring af tests                        | `test: tilføj test for story-repository` |
+| `chore`    | Opsætning, configs, afhængigheder (ingen prod-kode)     | `chore: opdater dependencies`            |
+
 
 ---
 
