@@ -5,6 +5,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+
+ENV REACT_APP_BACKEND_URL=http://viatab-backend:8080
+
 RUN npm run build
 
 # 2. Serve med Nginx
