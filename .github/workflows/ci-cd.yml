@@ -10,6 +10,21 @@ jobs:
   backend:
     name: Build backend & Test
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: viatab
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
 
@@ -19,17 +34,20 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Wait for DB to be ready
+        run: sleep 10
+
       - name: Build with Maven + run tests + coverage
         run: mvn clean verify --file backend/pom.xml
 
-      - name: Upload JaCoCo coverage report
+      - name: Upload JaCoCo report
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: backend/target/site/jacoco/index.html
+          path: backend/target/site/jacoco/
 
   frontend:
-    name: Build frontend
+    name: Build frontend (Vite)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -42,5 +60,12 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefix frontend
 
-      - name: Build frontend
+      - name: Run build
         run: npm run build --prefix frontend
+
+      - name: Archive production artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontend/dist/
+

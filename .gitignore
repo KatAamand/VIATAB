@@ -10,7 +10,7 @@
 /backend/mvnw.cmd
 /backend/*.iml
 
-# Node frontend
+# Vite frontend
 /frontend/node_modules/
 /frontend/dist/
 /frontend/build/

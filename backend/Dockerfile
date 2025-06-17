@@ -22,6 +22,9 @@ RUN mv target/*.jar target/backend.jar
 # Exposing standard Spring Boot-port
 EXPOSE 8080
 
+# Aktiver docker-profil
+ENV SPRING_PROFILES_ACTIVE=docker
+
 # Run Spring Boot jar-file
 CMD ["java", "-jar", "target/backend.jar"]
 

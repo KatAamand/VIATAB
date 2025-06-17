@@ -1,16 +1,16 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:15
-    container_name: viatab-db
+    container_name: viatab-db-test
     restart: always
     environment:
       POSTGRES_DB: viatab
       POSTGRES_USER: viatab
       POSTGRES_PASSWORD: viatab
     ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      - "5433:5432"
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "viatab" ]
       interval: 10s
@@ -19,7 +19,7 @@ services:
 
   backend:
     build: ./backend
-    container_name: viatab-backend
+    container_name: viatab-backend-test
     depends_on:
       db:
         condition: service_healthy
@@ -28,21 +28,12 @@ services:
       SPRING_DATASOURCE_USERNAME: viatab
       SPRING_DATASOURCE_PASSWORD: viatab
     ports:
-      - "8080:8080"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - "8081:8080"
 
   frontend:
     build: ./frontend
-    container_name: viatab-frontend
-    ports:
-      - "3000:80"  # Lokal port 3000, container port 80
+    container_name: viatab-frontend-test
     depends_on:
-      backend:
-        condition: service_healthy
-
-volumes:
-  pgdata:
+      - backend
+    ports:
+      - "3001:80"
