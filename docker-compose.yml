@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: viatab-db
+    restart: always
+    environment:
+      POSTGRES_DB: viatab
+      POSTGRES_USER: viatab
+      POSTGRES_PASSWORD: viatab
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: viatab-backend
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/viatab
+      SPRING_DATASOURCE_USERNAME: viatab
+      SPRING_DATASOURCE_PASSWORD: viatab
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    container_name: viatab-frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+
+volumes:
+  pgdata:
